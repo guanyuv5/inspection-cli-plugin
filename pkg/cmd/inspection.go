@@ -97,8 +97,13 @@ func (o *InspectionOptions) Run() error {
 	} else {
 		fmt.Fprintf(o.Out, "Total deployment count is [%d]\n", workloadResult.deployment.workloads)
 		fmt.Fprintf(o.Out, "Total noLimit deployment count is [%d]\n", len(workloadResult.deployment.noLimitWorkload))
+		fmt.Fprintf(o.Out, "Total oneReplica deployment count is [%d]\n", len(workloadResult.deployment.oneReplicaWorkload))
+
 		if len(workloadResult.deployment.noLimitWorkload) > 0 {
 			fmt.Fprintf(o.Out, "noLimit deployment: %v \n", workloadResult.deployment.noLimitWorkload)
+		}
+		if len(workloadResult.deployment.oneReplicaWorkload) > 0 {
+			fmt.Fprintf(o.Out, "oneReplica deployment: %v \n", workloadResult.deployment.oneReplicaWorkload)
 		}
 	}
 	if workloadResult.sts.workloads == 0 {
@@ -106,9 +111,15 @@ func (o *InspectionOptions) Run() error {
 	} else {
 		fmt.Fprintf(o.Out, "Total sts count is [%d]\n", workloadResult.sts.workloads)
 		fmt.Fprintf(o.Out, "Total noLimit sts count is [%d]\n", len(workloadResult.sts.noLimitWorkload))
+		fmt.Fprintf(o.Out, "Total oneReplica sts count is [%d]\n", len(workloadResult.sts.oneReplicaWorkload))
+
 		if len(workloadResult.sts.noLimitWorkload) > 0 {
 			fmt.Fprintf(o.Out, "noLimit sts: %v \n", workloadResult.sts.noLimitWorkload)
 		}
+		if len(workloadResult.sts.oneReplicaWorkload) > 0 {
+			fmt.Fprintf(o.Out, "oneReplica sts: %v \n", workloadResult.sts.oneReplicaWorkload)
+		}
 	}
+
 	return nil
 }

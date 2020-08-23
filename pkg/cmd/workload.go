@@ -15,6 +15,7 @@ type workloadResult struct {
 type workload struct {
 	workloads       int
 	noLimitWorkload []string
+	oneReplicaWorkload []string
 }
 
 //CheckWorkloads xx
@@ -40,10 +41,15 @@ func (o *InspectionOptions) CheckWorkloads() workloadResult {
 	} else {
 		deploymentResult.workloads = len(deployments.Items)
 		for i, _ := range deployments.Items {
+			if *deployments.Items[i].Spec.Replicas == int32(1) {
+				deploymentResult.oneReplicaWorkload = append(deploymentResult.oneReplicaWorkload,
+					fmt.Sprintf("%s.%s", deployments.Items[i].ObjectMeta.Namespace, deployments.Items[i].ObjectMeta.Name))
+			}
 			for _, container := range deployments.Items[i].Spec.Template.Spec.Containers {
 				if container.Resources.Limits == nil {
 					deploymentResult.noLimitWorkload = append(deploymentResult.noLimitWorkload,
 						fmt.Sprintf("%s.%s", deployments.Items[i].ObjectMeta.Namespace, deployments.Items[i].ObjectMeta.Name))
+					break
 				}
 			}
 		}
@@ -59,6 +65,10 @@ func (o *InspectionOptions) CheckWorkloads() workloadResult {
 	} else {
 		stsResult.workloads = len(sts.Items)
 		for i, _ := range sts.Items {
+			if *sts.Items[i].Spec.Replicas == int32(1) {
+				stsResult.oneReplicaWorkload = append(stsResult.oneReplicaWorkload,
+					fmt.Sprintf("%s.%s", sts.Items[i].ObjectMeta.Namespace, sts.Items[i].ObjectMeta.Name))
+			}
 			for _, container := range sts.Items[i].Spec.Template.Spec.Containers {
 				if container.Resources.Limits == nil {
 					stsResult.noLimitWorkload = append(deploymentResult.noLimitWorkload,
