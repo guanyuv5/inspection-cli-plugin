@@ -25,3 +25,8 @@ Use go1.13+ and fetch the repo to your any directory using the git command. For 
  noLimit deployment: [default.nginx kube-system.l7-lb-controller]
  Total sts count is [0]
 ```
+
+## Reference
+https://kubernetes.io/docs/tasks/extend-kubectl/kubectl-plugins/  
+https://github.com/operator-framework/operator-sdk  
+https://github.com/kubernetes/sample-cli-plugin
